@@ -30,10 +30,10 @@ class LigaController extends Controller
         if ($validate->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'validasi gagal',
+                'message' => 'Validasi Gagal',
                 'errors' => $validate->errors(),
             ], 422);
-        };
+        }
 
         try {
             $liga = new Liga;
@@ -42,13 +42,13 @@ class LigaController extends Controller
             $liga->save();
             return response()->json([
                 'success' => true,
-                'message' => 'data berhasil dibuat',
+                'message' => 'Data Liga Berhasil DiBuat',
                 'data' => $liga,
             ], 201);
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'terjadi kesalahan',
+                'message' => 'Terjadi Kesalahan',
                 'errors' => $e->getMessage(),
             ], 500);
         }
@@ -60,27 +60,61 @@ class LigaController extends Controller
             $liga = Liga::findOrFail($id);
             return response()->json([
                 'success' => true,
-                'message' => 'detail liga',
+                'message' => 'Detail Liga',
                 'data' => $liga,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'data terjadi kesalahan',
+                'message' => 'Data Tidak Ada',
                 'errors' => $e->getMessage(),
             ], 404);
         }
     }
 
-     public function destroy($id)
+    public function update(Request $request, $id)
+    {
+        $validate = Validator::make($request->all(), [
+            'nama_liga' => 'required',
+            'negara' => 'required',
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validasi Gagal',
+                'errors' => $validate->errors(),
+            ], 422);
+        }
+
+        try {
+            $liga = Liga::findOrFail($id);
+            $liga->nama_liga = $request->nama_liga;
+            $liga->negara = $request->negara;
+            $liga->save();
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Liga Berhasil DiBuat',
+                'data' => $liga,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi Kesalahan',
+                'errors' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function destroy($id)
     {
         try {
             $liga = Liga::findOrFail($id);
             $liga->delete();
             return response()->json([
                 'success' => true,
-                'message' => 'Data ' . $liga->nama_liga . ' Berhasil Dihapus',
-            ]);
+                'message' => 'Data ' . $liga->nama_liga . ' Berhasil DiHapus',
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

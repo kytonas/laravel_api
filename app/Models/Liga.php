@@ -9,7 +9,7 @@ class Liga extends Model
 {
     use HasFactory;
 
-    public $fillable = ['nama_liga', 'negara'];
+    protected $fillable = ['nama_liga', 'negara'];
 
     public function klub()
     {
