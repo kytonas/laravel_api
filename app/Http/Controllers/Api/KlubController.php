@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Klub;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class KlubController extends Controller
 {
@@ -36,7 +36,7 @@ class KlubController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_klub' => 'required|unique:klubs',
             'logo' => 'required|image|max:2048',
-            'id_liga' => 'required',
+            'id_liga' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -105,7 +105,7 @@ class KlubController extends Controller
         $klub = Klub::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'nama_klub' => 'required|unique:klubs',
-            'logo' => 'require|image|max:2048',
+            'logo' => 'nullable|image|max:2048',
             'id_liga' => 'required',
         ]);
 
