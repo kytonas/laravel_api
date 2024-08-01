@@ -39,7 +39,7 @@ class KlubController extends Controller
             'id_liga' => 'required'
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails()) { 
             return response()->json([
                 'success' => false,
                 'message' => 'Data tidak valid',
